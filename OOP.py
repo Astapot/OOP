@@ -48,8 +48,10 @@ class Student:
             if isinstance(student, Student) and course in student.courses_in_progress:
                 sum1 += sum(student.grades[course])
                 len1 += len(student.grades[course])
-        return sum1 / len1
-
+        if len1 != 0:
+            return sum1 / len1
+        else:
+            return 0
 
 class Mentor:
     def __init__(self, name, surname):
@@ -93,7 +95,11 @@ class Lecturer(Mentor):
             if isinstance(lector, Lecturer) and course in lector.courses_attached:
                 sum1 += sum(lector.grades[course])
                 len1 += len(lector.grades[course])
-        return sum1 / len1
+        if len1 != 0:
+            return sum1 / len1
+        else:
+            return 0
+
 
 
 class Reviewer(Mentor):
@@ -127,8 +133,11 @@ sTUDENT = Student('sdt', 'sdfsdf', 'm')
 DOG = Student('Mr', 'Waff', 'm')
 
 Pelmen.courses_attached = ['Python']
+Pelmen.courses_attached += ['Dota']
 DOG.courses_in_progress = ['Python']
+DOG.courses_in_progress += ['Dota']
 CAT.courses_attached = ['Python']
+CAT.courses_attached += ['Dota']
 Student.estimate_lec(DOG, CAT, 'Python', 1)
 Student.estimate_lec(DOG, CAT, 'Python', 2)
 # print(CAT.grades)
@@ -137,6 +146,7 @@ Student.estimate_lec(DOG, CAT, 'Python', 2)
 Reviewer.rate_hw(Pelmen, DOG, 'Python', 10)
 Reviewer.rate_hw(Pelmen, DOG, 'Python', 7)
 # print(DOG)
+Reviewer.rate_hw(Pelmen, DOG, 'Dota', 10)
 
 # print(Lecturer.__gt__(CAT, ARTEM))
 # print(Student.__gt__(sTUDENT, DOG))
@@ -152,6 +162,7 @@ Reviewer.rate_hw(Pelmen, sTUDENT, 'Python', 5)
 # print(DOG.grades)
 # print(sTUDENT.grades)
 # print(Student.average_grade_course([DOG, sTUDENT], 'Python'))
-print(CAT.grades)
+print(DOG.grades)
 print(ARTEM.grades)
 print(Lecturer.average_grade_course([CAT, ARTEM], 'Python'))
+print(DOG)
