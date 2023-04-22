@@ -1,4 +1,4 @@
-import requests
+import requests, json
 from pprint import pprint
 from progress.bar import IncrementalBar
 
@@ -30,7 +30,7 @@ def backup(folder_for_backup, offset=0, count=5):
         if len(array_photos) != 0:
             for num, photo in enumerate(array_photos):
                 if params['offset'] + num >= count:
-                    return result
+                    break
                 photo_url = photo['sizes'][-1]['url']
                 photo_name = '/' + str(photo['likes']['count']) + '_' + str(photo['date']) + '.png'
                 if photo_name.split('_')[1] in array:
@@ -41,6 +41,8 @@ def backup(folder_for_backup, offset=0, count=5):
                 bar.next()
             params['offset'] = params['offset'] + params['count']
     bar.finish()
+    with open('result.json', 'w') as file:
+        json.dump(result, file)
     return result
 
 
@@ -62,4 +64,4 @@ def ya_info(folder):
 if __name__ == '__main__':
     folder_for_backup = 'Course'
     array = ya_info(folder_for_backup)
-    pprint(backup(folder_for_backup, 0, 12))
+    pprint(backup(folder_for_backup, 0, 7))
