@@ -119,7 +119,7 @@ with psycopg2.connect(database='netology_db', user='postgres', password='9911332
 
     # Задание 7. Похожая функция уже есть, можно было ее в самом начале использовать вместо find_id
     # Учел что у пользователя могут быть одинаковые данные
-
+    # Старая версия, ниже новая
 
     def find_client(cur, name=None, last_name=None, email=None, telephone=None):
         if telephone is None:
@@ -153,6 +153,26 @@ with psycopg2.connect(database='netology_db', user='postgres', password='9911332
                 return f'Имя: {info[0]}, фамилия: {info[1]}, email: {info[2]}, telephones: {numbers}'
         return 'Такого клиента нет'
 
+    # Задание 7. Новая версия
+
+
+    def find_client2(cur, name='NULL', last_name='NULL', email='NULL', telephone='NULL'):
+        cur.execute("""
+                                            SELECT c.client_id, name, last_name, email, telephone FROM clients c
+                                            FULL JOIN client_tel ct ON c.client_id = ct.client_id
+                                            WHERE (c.name = %s OR %s = %s) AND (c.last_name = %s OR %s = %s)
+                                            AND (c.email = %s OR %s = %s) AND (ct.telephone = %s OR %s = %s)           
+                            """, (name, name, 'NULL', last_name, last_name, 'NULL', email, email, 'NULL', telephone, telephone, 'NULL'))
+        client_info = cur.fetchall()
+        if len(client_info) > 0:
+            id = client_info[0][0]
+            cur.execute("""
+                            SELECT name, last_name, email FROM clients WHERE client_id = %s;            
+                            """, (id,))
+            info = cur.fetchone()
+            numbers = find_telephones(cur, id)
+            return f'Имя: {info[0]}, фамилия: {info[1]}, email: {info[2]}, telephones: {numbers}'
+        return 'Такого клиента нет'
 
     with conn.cursor() as cur:
 
@@ -199,48 +219,54 @@ with psycopg2.connect(database='netology_db', user='postgres', password='9911332
 
 
 
-        add_client(cur, 'Юра', 'Младенцев', 'nagibator@mail.ru')
-        add_client(cur, 'ЖЖЖ', 'ЫЫЫ', 'sss@mail.ru')
-        add_client(cur, '1', '5', '123123@mail.ru')
-        add_client(cur, 'Антон', 'Антон', 'anton@mail.ru')
-        add_client(cur, 'Антон', 'Коля', 'kolant@mail.ru')
-        add_client(cur, 'Коля', 'Коля', 'kolya@mail.ru')
-        add_client(cur, 'Инвокер', 'Пуджевич', '322@yandex.ru')
-        add_client(cur, 'Буханка', 'Хлебов', 'yandex@mail.ru')
-        add_number(cur, 'Юра', 'Младенцев', '88005553535')
-        add_number(cur, 'Юра', 'Младенцев', '88005553537')
-        add_number(cur, 'Коля', 'Коля', '88005553539')
-        add_number(cur, 'Коля', 'Коля', '8800')
-        add_number(cur, 'ЖЖЖ', 'ЫЫЫ', '555')
-        add_number(cur, 'ЖЖЖ', 'ЫЫЫ', '111')
-        add_number(cur, 'ЖЖЖ', 'ЫЫЫ', '999')
-        add_number(cur, 'Юра', 'Младенцев', '8908908090')
-        add_number(cur, 'Инвокер', 'Пуджевич', '123654')
+        # add_client(cur, 'Юра', 'Младенцев', 'nagibator@mail.ru')
+        # add_client(cur, 'ЖЖЖ', 'ЫЫЫ', 'sss@mail.ru')
+        # add_client(cur, '1', '5', '123123@mail.ru')
+        # add_client(cur, 'Антон', 'Антон', 'anton@mail.ru')
+        # add_client(cur, 'Антон', 'Коля', 'kolant@mail.ru')
+        # add_client(cur, 'Коля', 'Коля', 'kolya@mail.ru')
+        # add_client(cur, 'Инвокер', 'Пуджевич', '322@yandex.ru')
+        # add_client(cur, 'Буханка', 'Хлебов', 'yandex@mail.ru')
+        # add_number(cur, 'Юра', 'Младенцев', '88005553535')
+        # add_number(cur, 'Юра', 'Младенцев', '88005553537')
+        # add_number(cur, 'Коля', 'Коля', '88005553539')
+        # add_number(cur, 'Коля', 'Коля', '8800')
+        # add_number(cur, 'ЖЖЖ', 'ЫЫЫ', '555')
+        # add_number(cur, 'ЖЖЖ', 'ЫЫЫ', '111')
+        # add_number(cur, 'ЖЖЖ', 'ЫЫЫ', '999')
+        # add_number(cur, 'Юра', 'Младенцев', '8908908090')
+        # add_number(cur, 'Инвокер', 'Пуджевич', '123654')
+        #
+        # find_id(cur, 'Андрей', 'Младенцев')
+        # print(add_number(cur, 'Андрей', 'Младенцев', '89009090909'))
+        # add_number(cur, 'Юра', 'Младенцев', '88005553536')
+        # add_number(cur, 'Инвокер', 'Пуджевич', '322')
+        # add_number(cur, 'Инвокер', 'Пуджевич', '322-322')
+        # add_number(cur, 'Буханка', 'Хлебов', '123456789')
+        #
+        # # в функции update_client используется инпут, будьте внимательны!
+        # # print(update_client(cur, 'Юра', 'Младенцев'))
+        #
+        # update_client_2(cur, 'Юра', 'Младенцев', 'Максим', 'Младенцев', '123')
+        #
+        # find_telephones(cur, 3)
+        # delete_number(cur, 'Инвокер', 'Пуджевич', '322')
+        # delete_number(cur, 'Инвокер', 'Пуджевич', '111')
+        # delete_number(cur, 'Инвокер', 'Младенцев', '111')
+        #
+        # print(delete_client(cur, 'Максим', 'Младенцев'))
+        # print(delete_client(cur, 'Юрец', 'Младенцев'))
+        # print(find_client(cur, name='Инвокер'))
+        # print(find_client(cur, telephone='322-322'))
+        # print(find_client(cur, last_name='Коля'))
+        # print(find_client(cur, last_name='Антон'))
+        # print(find_client(cur, last_name='Анто'))
+        # print(find_client2(cur, last_name='ЫЫЫ'))
+        # print(find_client2(cur, last_name='Пуджевич', name='Инвокер'))
+        # print(find_client2(cur, last_name='Пуджевич', name='Юрий'))
+        # print(find_client2(cur, telephone='111'))
+        # print(find_client2(cur, name='Антон', last_name='Коля'))
 
-        find_id(cur, 'Андрей', 'Младенцев')
-        print(add_number(cur, 'Андрей', 'Младенцев', '89009090909'))
-        add_number(cur, 'Юра', 'Младенцев', '88005553536')
-        add_number(cur, 'Инвокер', 'Пуджевич', '322')
-        add_number(cur, 'Инвокер', 'Пуджевич', '322-322')
-        add_number(cur, 'Буханка', 'Хлебов', '123456789')
-
-        # в функции update_client используется инпут, будьте внимательны!
-        # print(update_client(cur, 'Юра', 'Младенцев'))
-
-        update_client_2(cur, 'Юра', 'Младенцев', 'Максим', 'Младенцев', '123')
-
-        find_telephones(cur, 3)
-        delete_number(cur, 'Инвокер', 'Пуджевич', '322')
-        delete_number(cur, 'Инвокер', 'Пуджевич', '111')
-        delete_number(cur, 'Инвокер', 'Младенцев', '111')
-
-        print(delete_client(cur, 'Максим', 'Младенцев'))
-        print(delete_client(cur, 'Юрец', 'Младенцев'))
-        print(find_client(cur, name='Инвокер'))
-        print(find_client(cur, telephone='322-322'))
-        print(find_client(cur, last_name='Коля'))
-        print(find_client(cur, last_name='Антон'))
-        print(find_client(cur, last_name='Анто'))
 #     conn.commit()
 # conn.close()
 
