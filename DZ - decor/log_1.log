@@ -1,0 +1,4 @@
+start time = 2023-07-10 23:08:44.354282, name of function = hello_world, arguments = неименованных аргументов нет, named arguments = именованных аргументов нет, result = Hello World 
+start time = 2023-07-10 23:08:44.354282, name of function = summator, arguments = (2, 2), named arguments = именованных аргументов нет, result = 4 
+start time = 2023-07-10 23:08:44.354282, name of function = div, arguments = (6, 2), named arguments = именованных аргументов нет, result = 3.0 
+start time = 2023-07-10 23:08:44.354282, name of function = summator, arguments = (4.3,), named arguments = {'b': 2.2}, result = 6.5 
