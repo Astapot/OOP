@@ -3,3 +3,4 @@ start time = 2023-07-10 23:08:37.605173, name of function = summator, arguments 
 start time = 2023-07-10 23:08:37.605173, name of function = div, arguments = (6, 2), named arguments = именованных аргументов нет, result = 3.0 
 start time = 2023-07-10 23:08:37.605173, name of function = summator, arguments = (4.3,), named arguments = {'b': 2.2}, result = 6.5 
 start time = 2023-07-10 23:08:37.605173, name of function = summator, arguments = неименованных аргументов нет, named arguments = {'a': 0, 'b': 0}, result = 0 
+start time = 2023-07-11 14:53:34.409667, name of function = add_client, arguments = (<cursor object at 0x0000020CC8B91B60; closed: 0>, 'ёра', 'ћладенцев', 'nagibator@mail.ru'), named arguments = именованных аргументов нет, result = None 
