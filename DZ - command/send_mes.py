@@ -4,8 +4,8 @@ import requests
 from vk_api.upload import VkUpload
 from io import BytesIO
 
-my_vk_token = 'vk1.a.u7bFzy6gtq7feV3_Ojm8lxFbn1RVHEJgVP7D4eYglAfTRoRoBBWlvg4elxV9oZIQ6pZc2VD4D01yDrIxdPMV0EyahZQC_OVd2c3OXEKV6acXl4-gi4eCMOfr7DESErZsiO-wG_wronaI_e5CClZq1kgEpcJhjvB7ejJwLa6fFLXjUiJJBWblNc8AVNa3lczDfJP3enozdRCMllAqywxfdw'
-vk_token = 'vk1.a._0ZncLWb3CSLzETNzUmSNwGhk5eqaTfy_V8DUrUZCdnJozvpKTqN6wSskvoV14Lxtn2kA4K_4_n3Wy_ce1jtXaLavVf7O9KYb4erW_HEcIfrm6Ds2XnKzqg_X92XuPS5_ke182mHlZTgwjJQa_0cM6oByflWdSvKFjb235-KSXjxezHiJdHMADs83b6rrCTQZ-6ibBUEB3mHHOKM-fUplw'
+my_vk_token = ''
+vk_token = ''
 auth = vk_api.VkApi(token=vk_token)
 # longpoll = VkLongPoll(auth)
 vk = auth.get_api()
