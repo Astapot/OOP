@@ -1,4 +1,3 @@
-from pprint import pprint
 import requests
 
 
@@ -23,7 +22,6 @@ def get_photos(user_id, vk_token, offset=0):
             array_photos = response.json()['response']['items']
             if len(array_photos) != 0:
                 for num, photo in enumerate(array_photos):
-                    # photo_id = photo['id']
                     photo_likes = photo['likes']['count']
                     photo_url = photo['sizes'][-1]['url']
                     result_photos[photo_url] = photo_likes
@@ -40,5 +38,3 @@ def get_photos(user_id, vk_token, offset=0):
                 three_popular_photos.append(url)
                 break
     return three_popular_photos
-
-# pprint(get_photos(176021324, vk_token))
