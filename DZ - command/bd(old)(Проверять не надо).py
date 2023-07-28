@@ -1,7 +1,7 @@
 import psycopg2
 
 with psycopg2.connect(database='command_work', user='postgres', password='99113322vfrcbv') as conn:
-    def add_user(user_id, first_name, last_name, sex, age, city, number=0):
+    def add_user(user_id, first_name, last_name, sex, age, city):
         with psycopg2.connect(database='command_work', user='postgres', password='99113322vfrcbv') as conn:
             with conn.cursor() as cur:
                 check_user_in_db = find_id(user_id)
@@ -9,9 +9,6 @@ with psycopg2.connect(database='command_work', user='postgres', password='991133
                     cur.execute("""
                                INSERT INTO user_info(user_id, first_name, last_name, sex, age, city) VALUES (%s, %s, %s, %s, %s, %s);
                            """, (user_id, first_name, last_name, sex, age, city,))
-                    cur.execute("""
-                                INSERT INTO user_number(user_id, number) VALUES (%s, %s);
-                                               """, (user_id, number,))
             return
 
     def find_id(user_id):
@@ -76,23 +73,6 @@ with psycopg2.connect(database='command_work', user='postgres', password='991133
                 else:
                     return False
 
-    def update_number(user_id, number):
-        with psycopg2.connect(database='command_work', user='postgres', password='99113322vfrcbv') as conn:
-            with conn.cursor() as cur:
-                cur.execute("""
-                                UPDATE user_number SET number = %s WHERE user_id = %s;       
-                                           """, (number, user_id,))
-
-    def get_number(user_id):
-        with psycopg2.connect(database='command_work', user='postgres', password='99113322vfrcbv') as conn:
-            with conn.cursor() as cur:
-                cur.execute("""
-                            SELECT number
-                            FROM user_number
-                            WHERE user_id = %s;
-                """, (user_id,))
-                return cur.fetchone()
-
 
     with conn.cursor() as cur:
         # cur.execute("""
@@ -127,10 +107,3 @@ with psycopg2.connect(database='command_work', user='postgres', password='991133
                     CONSTRAINT inf_elect PRIMARY KEY (user_id, el_user_id)
                     );
         """)
-        cur.execute("""
-                        CREATE TABLE IF NOT EXISTS user_number(
-                            user_id INTEGER REFERENCES user_info(user_id),
-                            number INTEGER
-                            );
-                """)
-

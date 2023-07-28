@@ -1,7 +1,6 @@
 import requests
 
-
-vk_token = ''
+vk_token = 'vk1.a._0ZncLWb3CSLzETNzUmSNwGhk5eqaTfy_V8DUrUZCdnJozvpKTqN6wSskvoV14Lxtn2kA4K_4_n3Wy_ce1jtXaLavVf7O9KYb4erW_HEcIfrm6Ds2XnKzqg_X92XuPS5_ke182mHlZTgwjJQa_0cM6oByflWdSvKFjb235-KSXjxezHiJdHMADs83b6rrCTQZ-6ibBUEB3mHHOKM-fUplw'
 def get_photos(user_id, vk_token, offset=0):
     three_popular_photos = []
     result_photos = {}
