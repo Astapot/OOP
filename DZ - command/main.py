@@ -1,34 +1,17 @@
 import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
 import requests
-from work_with_photos import get_photos
 from vk_api.upload import VkUpload
 from send_mes import write_message, upload_photo, send_photo
-from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from BD import add_elect_user, find_elect_id, give_all_elect_users, get_number, update_number
-from get_info import get_info, find_people, get_friends
+from get_info import get_info, find_people, get_friends, get_photos
+from keyboard import start_keyboard, continue_keyboard
+from config import vk_token, my_vk_token
 
-my_vk_token = ''
-vk_token = ''
 auth = vk_api.VkApi(token=vk_token)
 longpoll = VkLongPoll(auth)
 vk = auth.get_api()
 upload = VkUpload(vk)
-
-# Клавиатура
-start_keyboard = VkKeyboard(one_time=True)
-start_keyboard.add_button('Найди людей', color=VkKeyboardColor.PRIMARY)
-start_keyboard.add_line()
-start_keyboard.add_button('Вывести список избранных', color=VkKeyboardColor.SECONDARY)
-start_keyboard.add_line()
-start_keyboard.add_button('Старт', color=VkKeyboardColor.NEGATIVE)
-
-continue_keyboard = VkKeyboard(one_time=False)
-continue_keyboard.add_button('Следующий', color=VkKeyboardColor.POSITIVE)
-continue_keyboard.add_button('Добавить в избранное', color=VkKeyboardColor.PRIMARY)
-continue_keyboard.add_line()
-continue_keyboard.add_button('В начало', color=VkKeyboardColor.NEGATIVE)
-
 
 # Цикл общения с ботом
 for event in longpoll.listen():
@@ -58,14 +41,19 @@ for event in longpoll.listen():
                     favourite = find_elect_id(current_man['id'], user)
                     if current_man['id'] not in friends_ids and not favourite:
                         break
+                    if number >= 500:
+                        write_message(user, 'Люди закончились, попробуй заново!', start_keyboard)
+                        break
+
                 update_number(user, number)
-                name, last_name = current_man['first_name'], current_man['last_name']
-                link = 'https://vk.com/id' + str(current_man['id'])
-                popular_photos = get_photos(current_man['id'], my_vk_token)
-                write_message(user, f'имя - {name}, фамилия - {last_name}, ссылка - {link}', keyboard=continue_keyboard)
-                for photo_url in popular_photos:
-                    owner_id, photo_id, access_key = upload_photo(upload, photo_url)
-                    send_photo(auth, user, owner_id, photo_id, access_key)
+                if number < 500:
+                    name, last_name = current_man['first_name'], current_man['last_name']
+                    link = 'https://vk.com/id' + str(current_man['id'])
+                    popular_photos = get_photos(current_man['id'], my_vk_token)
+                    write_message(user, f'имя - {name}, фамилия - {last_name}, ссылка - {link}', keyboard=continue_keyboard)
+                    for photo_url in popular_photos:
+                        owner_id, photo_id, access_key = upload_photo(upload, photo_url)
+                        send_photo(auth, user, owner_id, photo_id, access_key)
             #  трай ексепт не убирал, он не мешает. Но сейчас по сути рудимент, так как все возможные ошибки убрал
             except Exception:
                 write_message(user, 'Вас пока нет в базе, попробуйте выбрать Старт', start_keyboard)
@@ -88,15 +76,19 @@ for event in longpoll.listen():
                     favourite = find_elect_id(current_man['id'], user)
                     if current_man['id'] not in friends_ids and not favourite:
                         break
+                    if number >= 500:
+                        write_message(user, 'Люди закончились, попробуй заново!', start_keyboard)
+                        break
                 update_number(user, number)
-                current_man = men[number]
-                name, last_name = current_man['first_name'], current_man['last_name']
-                link = 'https://vk.com/id' + str(current_man['id'])
-                popular_photos = get_photos(current_man['id'], my_vk_token)
-                write_message(user, f'имя - {name}, фамилия - {last_name}, ссылка - {link}')
-                for photo_url in popular_photos:
-                    owner_id, photo_id, access_key = upload_photo(upload, photo_url)
-                    send_photo(auth, user, owner_id, photo_id, access_key)
+                if number < 500:
+                    current_man = men[number]
+                    name, last_name = current_man['first_name'], current_man['last_name']
+                    link = 'https://vk.com/id' + str(current_man['id'])
+                    popular_photos = get_photos(current_man['id'], my_vk_token)
+                    write_message(user, f'имя - {name}, фамилия - {last_name}, ссылка - {link}')
+                    for photo_url in popular_photos:
+                        owner_id, photo_id, access_key = upload_photo(upload, photo_url)
+                        send_photo(auth, user, owner_id, photo_id, access_key)
         elif message == 'В начало':
             write_message(user, 'Снова здесь', start_keyboard)
         elif message == 'Добавить в избранное':

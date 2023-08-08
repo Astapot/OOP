@@ -3,9 +3,9 @@ from vk_api.utils import get_random_id
 import requests
 from vk_api.upload import VkUpload
 from io import BytesIO
+from vk_api.longpoll import VkLongPoll, VkEventType
+from config import vk_token, my_vk_token
 
-my_vk_token = ''
-vk_token = ''
 auth = vk_api.VkApi(token=vk_token)
 longpoll = VkLongPoll(auth)
 vk = auth.get_api()
