@@ -17,6 +17,8 @@ def show_catalog(request):
         phones = Phone.objects.order_by('-price')
     else:
         phones = Phone.objects.all()
+    print(phones)
+    print(phones[1].name)
     context = {'phones': phones}
     return render(request, template, context)
 
@@ -24,6 +26,5 @@ def show_catalog(request):
 def show_product(request, slug):
     template = 'product.html'
     phone = Phone.objects.filter(slug=slug)
-    print(phone)
-    context = {'phone': phone}
+    context = {'phone': phone[0]}
     return render(request, template, context)
