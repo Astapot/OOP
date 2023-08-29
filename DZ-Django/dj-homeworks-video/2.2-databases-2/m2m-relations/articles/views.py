@@ -6,7 +6,6 @@ from articles.models import Article
 def articles_list(request):
     template = 'articles/news.html'
     object_list = Article.objects.all()
-    print(object_list[0].scopes.all()[0])
     context = {'object_list': object_list}
 
     # используйте этот параметр для упорядочивания результатов

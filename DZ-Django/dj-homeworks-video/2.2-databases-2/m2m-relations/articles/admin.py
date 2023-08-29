@@ -9,7 +9,9 @@ class TagsArticleInlineFormset(BaseInlineFormSet):
         for form in self.forms:
             # В form.cleaned_data будет словарь с данными
             # каждой отдельной формы, которые вы можете проверить
+            print(form)
             form.cleaned_data
+            print(form.cleaned_data)
             # вызовом исключения ValidationError можно указать админке о наличие ошибки
             # таким образом объект не будет сохранен,
             # а пользователю выведется соответствующее сообщение об ошибке
@@ -25,6 +27,7 @@ class TagsArticleInline(admin.TabularInline):
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'published_at']
     inlines = [TagsArticleInline,]
+
 
 @admin.register(Tags)
 class TagsAdmin(admin.ModelAdmin):
