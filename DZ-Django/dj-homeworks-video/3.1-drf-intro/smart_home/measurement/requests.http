@@ -1,0 +1,9 @@
+POST http://127.0.0.1:8000/api/create_sensor/normal/?description=normalnormal
+
+###
+
+PATCH http://127.0.0.1:8000/api/patch_sensor/python/?new_name=great&description=THEGREATEST
+
+###
+
+POST http://127.0.0.1:8000/api/create_measurement/5/36/
