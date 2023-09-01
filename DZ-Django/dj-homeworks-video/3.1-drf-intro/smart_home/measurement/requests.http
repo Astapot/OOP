@@ -2,8 +2,16 @@ POST http://127.0.0.1:8000/api/create_sensor/normal/?description=normalnormal
 
 ###
 
+POST http://127.0.0.1:8000/api/create_sensor/good/?description=verygood
+
+###
+
+POST http://127.0.0.1:8000/api/create_sensor/bad/?description=badbad
+
+###
+
 PATCH http://127.0.0.1:8000/api/patch_sensor/python/?new_name=great&description=THEGREATEST
 
 ###
 
-POST http://127.0.0.1:8000/api/create_measurement/5/36/
+POST http://127.0.0.1:8000/api/create_measurement/1/36/

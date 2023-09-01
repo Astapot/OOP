@@ -28,8 +28,8 @@ def patch_sensor(request, name):
 
 
 @api_view(['POST'])
-def create_measurement(request, sensor_id, temperature):
-    measurement = Measurement(sensor_id=sensor_id, temperature=temperature).save()
+def create_measurement(request, sensorid, temperature):
+    measurement = Measurement(sensorid=sensorid, temperature=temperature).save()
     return Response({'status': 'measurement was added'})
 
 
