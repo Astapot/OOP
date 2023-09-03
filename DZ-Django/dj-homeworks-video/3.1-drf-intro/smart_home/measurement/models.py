@@ -3,8 +3,9 @@ from django.db import models
 # TODO: опишите модели датчика (Sensor) и измерения (Measurement)
 
 #
+
 class Sensor(models.Model):
-    # id = models.BigAutoField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100, null=False)
     description = models.TextField()
 
@@ -13,6 +14,6 @@ class Sensor(models.Model):
 
 
 class Measurement(models.Model):
-    sensorid = models.ForeignKey(Sensor, on_delete=models.CASCADE)
-    temperature = models.IntegerField()
-    date_and_time = models.DateTimeField(auto_now_add=True)
+    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, related_name='measurements')
+    temperature = models.FloatField()
+    date = models.DateTimeField(auto_now_add=True)

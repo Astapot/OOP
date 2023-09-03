@@ -10,8 +10,38 @@ POST http://127.0.0.1:8000/api/create_sensor/bad/?description=badbad
 
 ###
 
-PATCH http://127.0.0.1:8000/api/patch_sensor/python/?new_name=great&description=THEGREATEST
+PATCH http://127.0.0.1:8000/api/patch_sensor/normal/?new_name=great&description=THEGREATEST
 
 ###
 
 POST http://127.0.0.1:8000/api/create_measurement/1/36/
+
+###
+
+GET http://127.0.0.1:8000/api/show_sensors/
+
+###
+
+GET http://127.0.0.1:8000/api/sensor/1/
+
+###
+
+POST http://127.0.0.1:8000/api/create_measurement/
+Content-Type: application/json
+
+{
+  "sensor": 1,
+  "temperature": 26
+}
+
+###
+
+POST http://127.0.0.1:8000/api/create_measurement/
+Content-Type: application/json
+
+{
+  "sensor": 1,
+  "temperature": 36.1
+}
+
+

@@ -3,13 +3,14 @@
 from rest_framework.decorators import api_view
 from .models import Sensor, Measurement
 from rest_framework.response import Response
-# from .serializers import SensorSerializer
-# @api_view(['POST'])
-# def create_sensor(request):
-#     sensors = Sensor.objects.all()
-#
-#     data = SensorSerializer(sensor, many=True)
-#     return Response(data.data)
+from .serializers import SensorSerializer, MeasurementSerializer, SensorDetailSerializer
+from rest_framework.generics import RetrieveAPIView
+from rest_framework import generics
+@api_view(['GET'])
+def show_sensors(request):
+    sensors = Sensor.objects.all()
+    data = SensorSerializer(sensors, many=True)
+    return Response(data.data)
 
 
 @api_view(['POST'])
@@ -28,8 +29,16 @@ def patch_sensor(request, name):
 
 
 @api_view(['POST'])
-def create_measurement(request, sensorid, temperature):
-    measurement = Measurement(sensorid=sensorid, temperature=temperature).save()
+def create_measurement(request, sensor, temperature):
+    measurement = Measurement(sensor=sensor, temperature=temperature).save()
     return Response({'status': 'measurement was added'})
 
 
+class SensorView(RetrieveAPIView):
+    queryset = Sensor.objects.all()
+    serializer_class = SensorDetailSerializer
+
+
+class MeasurementCreaterView(generics.ListCreateAPIView):
+    queryset = Measurement.objects.all()
+    serializer_class = MeasurementSerializer
