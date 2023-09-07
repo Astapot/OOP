@@ -13,14 +13,49 @@ Content-Type: application/json
 
 ###
 
+POST {{baseUrl}}/products/
+Content-Type: application/json
+
+{
+  "title": "Банан",
+  "description": "Худший банан в городе"
+}
+
+###
+
+# создание продукта
+POST {{baseUrl}}/products/
+Content-Type: application/json
+
+{
+  "title": "Пельмен",
+  "description": "Настоящий пельмен, внутри много мяса"
+}
+
+###
+
+###
+
 # получение продуктов
 GET {{baseUrl}}/products/
 Content-Type: application/json
 
 ###
 
+# получение продукта
+GET {{baseUrl}}/products/?description=Худший банан в городе
+Content-Type: application/json
+
+###
+
+# получение продукта
+GET {{baseUrl}}/products/?search=худ
+Content-Type: application/json
+
+###
+
 # обновление продукта
-PATCH {{baseUrl}}/products/1/
+PATCH {{baseUrl}}/products/3/
 Content-Type: application/json
 
 {
@@ -30,7 +65,7 @@ Content-Type: application/json
 ###
 
 # удаление продукта
-DELETE {{baseUrl}}/products/1/
+DELETE {{baseUrl}}/products/3/
 Content-Type: application/json
 
 ###
@@ -49,12 +84,12 @@ Content-Type: application/json
   "address": "мой адрес не дом и не улица, мой адрес сегодня такой: www.ленинград-спб.ru3",
   "positions": [
     {
-      "product": 2,
+      "product": 4,
       "quantity": 250,
       "price": 120.50
     },
     {
-      "product": 3,
+      "product": 5,
       "quantity": 100,
       "price": 180
     }
@@ -63,20 +98,42 @@ Content-Type: application/json
 
 ###
 
+
+POST {{baseUrl}}/stocks/
+Content-Type: application/json
+
+{
+  "address": "Ленина 1",
+  "positions": [
+    {
+      "product": 4,
+      "quantity": 100,
+      "price": 100.50
+    },
+    {
+      "product": 5,
+      "quantity": 500,
+      "price": 1800
+    }
+  ]
+}
+
+###
+
 # обновляем записи на складе
-PATCH {{baseUrl}}/stocks/4/
+PATCH {{baseUrl}}/stocks/15/
 Content-Type: application/json
 
 {
   "positions": [
     {
-      "product": 2,
-      "quantity": 100,
-      "price": 130.80
+      "product": 4,
+      "quantity": 102,
+      "price": 131.81
     },
     {
-      "product": 3,
-      "quantity": 243,
+      "product": 5,
+      "quantity": 223,
       "price": 145
     }
   ]
@@ -84,6 +141,36 @@ Content-Type: application/json
 
 ###
 
+PATCH {{baseUrl}}/stocks/16/
+Content-Type: application/json
+
+{
+  "positions": [
+    {
+      "product": 4,
+      "quantity": 11123,
+      "price": 444.80
+    },
+    {
+      "product": 5,
+      "quantity": 441,
+      "price": 555
+    }
+  ]
+}
+
+###
+
 # поиск складов, где есть определенный продукт
-GET {{baseUrl}}/stocks/?products=2
+GET {{baseUrl}}/stocks/?products=5
+Content-Type: application/json
+
+###
+
+GET {{baseUrl}}/products/?limit=2
+Content-Type: application/json
+
+###
+
+GET {{baseUrl}}/products/?page=1
 Content-Type: application/json
