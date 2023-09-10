@@ -6,14 +6,17 @@ from .models import Advertisement
 from advertisements.serializers import AdvertisementSerializer
 from advertisements.permissions import IsOwner
 from advertisements.filters import AdvertisementFilter
-
+from rest_framework.authentication import TokenAuthentication
 
 class AdvertisementViewSet(ModelViewSet):
     """ViewSet для объявлений."""
     queryset = Advertisement.objects.all()
-    serializer_class = AdvertisementSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['creator', 'status']
+    filterset_class = AdvertisementFilter
+    serializer_class = AdvertisementSerializer
+
+    # filterset_fields = ['creator', 'status']
+    authentication_classes = (TokenAuthentication,)
     # filter_backends = [AdvertisementFilter]
     # filterset_fields = ['created_at']
     # permission_classes = [IsAuthenticated, IsOwner]
