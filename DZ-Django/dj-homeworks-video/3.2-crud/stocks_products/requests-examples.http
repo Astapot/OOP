@@ -129,12 +129,17 @@ Content-Type: application/json
     {
       "product": 4,
       "quantity": 102,
-      "price": 131.81
+      "price": 131.83
     },
     {
       "product": 5,
       "quantity": 223,
       "price": 145
+    },
+    {
+      "product": 6,
+      "quantity": 222,
+      "price": 146
     }
   ]
 }
@@ -167,7 +172,7 @@ Content-Type: application/json
 
 ###
 
-GET {{baseUrl}}/products/?limit=2
+GET {{baseUrl}}/products/?limit=3
 Content-Type: application/json
 
 ###
