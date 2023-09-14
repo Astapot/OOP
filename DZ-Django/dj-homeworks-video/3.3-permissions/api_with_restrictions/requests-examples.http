@@ -28,13 +28,21 @@ Authorization: Token e73cbba4f704c9964b5ff5d618f334a40279d3ea
 ###
 
 # попытка поменять объявление
-PATCH {{baseUrl}}/advertisements/11/
+PATCH {{baseUrl}}/advertisements/18/
 Content-Type: application/json
 Authorization: Token e73cbba4f704c9964b5ff5d618f334a40279d3ea
 
 {
-  "status": "OPEN"
+  "status": "CLOSED"
 }
+
+###
+
+# удаление
+
+DELETE {{baseUrl}}/advertisements/13/
+Content-Type: application/json
+Authorization: Token e73cbba4f704c9964b5ff5d618f334a40279d3ea
 
 ###
 
@@ -46,7 +54,7 @@ Content-Type: application/json
 ###
 
 # фильтрация по создателю
-GET {{baseUrl}}/advertisements/?creator=2
+GET {{baseUrl}}/advertisements/?status=CLOSED
 Content-Type: application/json
 
 ###
