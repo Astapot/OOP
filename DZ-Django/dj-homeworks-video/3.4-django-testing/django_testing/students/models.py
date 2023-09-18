@@ -18,3 +18,6 @@ class Course(models.Model):
         Student,
         blank=True,
     )
+
+    def __str__(self):
+        return f'{self.id}, {self.name}'

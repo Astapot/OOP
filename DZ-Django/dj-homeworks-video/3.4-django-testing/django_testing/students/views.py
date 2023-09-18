@@ -7,7 +7,6 @@ from students.serializers import CourseSerializer
 
 
 class CoursesViewSet(ModelViewSet):
-
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     filter_backends = (DjangoFilterBackend, )
